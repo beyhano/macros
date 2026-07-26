@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+cd "$ROOT"
+
 VERSION=$(python3 -c "import json; print(json.load(open('version.json'))['current']['version'])")
 
 echo "🚀 macros v$VERSION dağıtımı başlıyor..."
@@ -20,25 +23,23 @@ wails3 task build
 echo "🏗️  Windows binary..."
 wails3 task windows:build
 
-# 4. Build Linux AppImage (our custom build.sh with DISABLE_PLUGINS=1)
+# 4. Build Linux AppImage (custom build.sh with DISABLE_PLUGINS=1)
 echo "🏗️  Linux AppImage..."
-rm -rf build/linux/appimage/build/macros-x86_64.AppDir
-rm -f build/linux/appimage/build/macros-x86_64.AppImage
+rm -rf "$ROOT/build/linux/appimage/build/macros-x86_64.AppDir"
+rm -f "$ROOT/build/linux/appimage/build/macros-x86_64.AppImage"
 
-# Run build.sh directly so env vars are honored
-cd build/linux/appimage/build
-APP_NAME=macros \
-APP_BINARY=../../../bin/macros \
-ICON_PATH=../../appicon.png \
-DESKTOP_FILE=../../macros.desktop \
-NO_STRIP=1 \
+cd "$ROOT/build/linux/appimage/build"
 DISABLE_PLUGINS=1 \
-bash ../build.sh 2>&1 || echo "   (AppImage build devam etti)"
-cd ../../..
+NO_STRIP=1 \
+APP_NAME=macros \
+APP_BINARY="$ROOT/bin/macros" \
+ICON_PATH="$ROOT/build/appicon.png" \
+DESKTOP_FILE="$ROOT/build/linux/macros.desktop" \
+bash "$ROOT/build/linux/appimage/build.sh" 2>&1 || true
+cd "$ROOT"
 
-# Copy AppImage to bin
-if [ -f build/linux/appimage/build/macros-x86_64.AppImage ]; then
-  cp build/linux/appimage/build/macros-x86_64.AppImage bin/macros.AppImage
+if [ -f "$ROOT/build/linux/appimage/build/macros-x86_64.AppImage" ]; then
+  cp "$ROOT/build/linux/appimage/build/macros-x86_64.AppImage" "$ROOT/bin/macros.AppImage"
   echo "   ✅ AppImage: bin/macros.AppImage"
 else
   echo "   ⚠️  AppImage oluşturulamadı"

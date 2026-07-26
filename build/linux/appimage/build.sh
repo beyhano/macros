@@ -36,6 +36,8 @@ else
     ./linuxdeploy-aarch64.AppImage --appdir "${APP_DIR}" --output appimage
 fi
 
-# Rename the generated AppImage
-mv "${APP_NAME}*.AppImage" "${APP_NAME}.AppImage"
+# Rename the generated AppImage (handle both with and without arch suffix)
+for f in "${APP_NAME}"*.AppImage; do
+  [ -f "$f" ] && mv "$f" "${APP_NAME}.AppImage" && break
+done 2>/dev/null || true
 
