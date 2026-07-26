@@ -1,11 +1,16 @@
 {
   "current": {
-    "version": "0.0.1",
-    "date": "2026-07-26T21:00:00Z"
+    "version": "0.0.3",
+    "date": "2026-07-26T19:28:32Z"
   },
   "history": [
     {
-      "version": "0.0.1",
+      "version": "0.0.3",
+      "date": "2026-07-26T19:28:32Z",
+      "changelog": "Appimage"
+    },
+    {
+      "version": "0.0.2",
       "date": "2026-07-26T21:00:00Z",
       "changelog": "İlk sürüm — dosya gezgini, CodeMirror editör, koyu/açık tema"
     }

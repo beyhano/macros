@@ -20,7 +20,7 @@ if [[ $(uname -m) == *x86_64* ]]; then
     chmod +x linuxdeploy-x86_64.AppImage
 
     # Run linuxdeploy to bundle the application
-    ./linuxdeploy-x86_64.AppImage --appdir "${APP_DIR}" --output appimage
+    DEPLOY_GTK_VERSION=3 ./linuxdeploy-x86_64.AppImage --appdir "${APP_DIR}" --output appimage
 else
     # Download linuxdeploy and make it executable (arm64)
     wget -q -4 -N https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-aarch64.AppImage

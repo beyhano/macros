@@ -2,14 +2,20 @@ package main
 
 import (
 	"crypto/sha1"
+	"embed"
 	"encoding/json"
 	"fmt"
+	"io/fs"
+	"log"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
 	"time"
 )
+
+//go:embed Macros
+var macrosEmbed embed.FS
 
 // FileEntry represents a file or directory in the Macros tree.
 type FileEntry struct {
@@ -56,7 +62,43 @@ func NewMacrosService() *MacrosService {
 		wd = filepath.Dir(wd)
 		root = filepath.Join(wd, "Macros")
 	}
+	// If Macros/ doesn't exist on disk, extract from embedded FS
+	if _, err := os.Stat(root); os.IsNotExist(err) {
+		log.Println("Macros/ bulunamadı, embedded dosyalar çıkartılıyor...")
+		if err := extractEmbedded(macrosEmbed, "Macros", root); err != nil {
+			log.Printf("Uyarı: Macros/ çıkartılamadı: %v", err)
+		} else {
+			log.Println("Macros/ başarıyla oluşturuldu.")
+		}
+	}
 	return &MacrosService{root: root}
+}
+
+// extractEmbedded copies an embedded fs directory to a target path on disk.
+// Skips files/dirs starting with "." (e.g. .versions).
+func extractEmbedded(efs embed.FS, srcPath string, dstPath string) error {
+	return fs.WalkDir(efs, srcPath, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		// Skip hidden entries
+		if strings.HasPrefix(d.Name(), ".") {
+			if d.IsDir() {
+				return fs.SkipDir
+			}
+			return nil
+		}
+		rel, _ := filepath.Rel(srcPath, path)
+		target := filepath.Join(dstPath, rel)
+		if d.IsDir() {
+			return os.MkdirAll(target, 0755)
+		}
+		data, err := efs.ReadFile(path)
+		if err != nil {
+			return err
+		}
+		return os.WriteFile(target, data, 0644)
+	})
 }
 
 // GetRootPath returns the absolute path of the Macros directory.

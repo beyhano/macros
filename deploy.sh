@@ -12,20 +12,29 @@ git commit -m "v$VERSION" --allow-empty
 git push
 echo ""
 
-# 2. Build (linux + windows)
-echo "🏗️  Linux build..."
+# 2. Build Linux binary
+echo "🏗️  Linux binary..."
 wails3 task build >/dev/null 2>&1
-echo "🏗️  Windows build..."
+
+# 3. Build Windows binary
+echo "🏗️  Windows binary..."
 wails3 task windows:build >/dev/null 2>&1
+
+# 4. Build Linux AppImage
+echo "🏗️  Linux AppImage..."
+wails3 task linux:package >/dev/null 2>&1
+cp build/linux/appimage/build/macros-x86_64.AppImage bin/macros.AppImage
 echo ""
 
-# 3. GitHub Release
+# 5. Upload assets to GitHub Release
 echo "📤 GitHub Release oluşturuluyor..."
 CHANGELOG=$(python3 -c "import json; h=json.load(open('version.json'))['history']; print(h[0]['changelog'] if h else 'Yeni sürüm')")
+
 gh release create "v$VERSION" \
   --title "v$VERSION" \
   --notes "$CHANGELOG" \
   "./bin/macros#macros-linux-amd64" \
+  "./bin/macros.AppImage#macros-linux-amd64.AppImage" \
   "./bin/macros.exe#macros-windows-amd64.exe"
 
 echo ""
