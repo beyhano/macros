@@ -1,0 +1,13 @@
+{
+  "current": {
+    "version": "0.0.1",
+    "date": "2026-07-26T21:00:00Z"
+  },
+  "history": [
+    {
+      "version": "0.0.1",
+      "date": "2026-07-26T21:00:00Z",
+      "changelog": "İlk sürüm — dosya gezgini, CodeMirror editör, koyu/açık tema"
+    }
+  ]
+}

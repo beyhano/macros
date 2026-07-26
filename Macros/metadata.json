@@ -1,0 +1,791 @@
+﻿[
+    {
+        "Name":  "WPF Window Xaml Layout Example",
+        "Description":  "An example of creating WPF windows with Xaml layouts in ClassicAssist",
+        "Author":  "Reetus",
+        "Era":  "AOS",
+        "Id":  "43a28158-e8d7-4558-99d9-534b7b57fe40",
+        "Categories":  "Advanced",
+        "FileName":  "Advanced\\wpfwindowxamllayoutexample.py",
+        "Size":  4518,
+        "SHA1":  "62D53F25D3E0207AAF44482749D31634818761FC",
+        "ModifiedDate":  "2022-03-06T01:05:07.9058739+00:00"
+    },
+    {
+        "Name":  "Discord/PushBullet send message",
+        "Description":  "Example functions to send message to Discord/PushBullet",
+        "Author":  "Reetus",
+        "Era":  "Any",
+        "Id":  "0bb28d8f-dec9-4425-af5d-594377142565",
+        "Categories":  [
+                           "Advanced",
+                           "Examples"
+                       ],
+        "FileName":  "Advanced\\Examples\\external_services.py",
+        "Size":  1150,
+        "SHA1":  "6CDA65EAF64584C390985CED6EAA69548A1AFCD8",
+        "ModifiedDate":  "2022-03-06T01:05:07.9028694+00:00"
+    },
+    {
+        "Name":  "Find Items By Name",
+        "Description":  "Find all items within a container containing the given text in it\u0027s name",
+        "Author":  "Reetus",
+        "Era":  "Any",
+        "Id":  "c89e5f02-6ece-4d0b-b3f9-3695616d218b",
+        "Categories":  [
+                           "Advanced",
+                           "Examples"
+                       ],
+        "FileName":  "Advanced\\Examples\\find_items_by_name.py",
+        "Size":  607,
+        "SHA1":  "DB3E83C863CD3695B723A8713FBE4C2A6F98E06C",
+        "ModifiedDate":  "2022-03-06T01:05:07.9028694+00:00"
+    },
+    {
+        "Name":  "Hide All Multis",
+        "Description":  "Issues a remove object on all multis in range, useful for looking inside the walls of houses",
+        "Author":  "Reetus",
+        "Era":  "Any",
+        "Id":  "6ea52710-fbdc-40e2-b06c-1dfc2c5f96f5",
+        "Categories":  [
+                           "Advanced",
+                           "Examples"
+                       ],
+        "FileName":  "Advanced\\Examples\\hide_all_houses.py",
+        "Size":  447,
+        "SHA1":  "8679029AF21D4CAC1B7AB3CE9B6190FEABDE5D7D",
+        "ModifiedDate":  "2022-03-06T01:05:07.9038599+00:00"
+    },
+    {
+        "Name":  "Linq Enumerate Mobiles",
+        "Description":  "Using Linq with Python to get mobiles with a bunch of conditions...",
+        "Author":  "Reetus",
+        "Era":  "Any",
+        "Id":  "6948acd1-bf85-4231-852c-5d6bd4a792cb",
+        "Categories":  [
+                           "Advanced",
+                           "Examples"
+                       ],
+        "FileName":  "Advanced\\Examples\\linq_enumerate_mobiles.py",
+        "Size":  2073,
+        "SHA1":  "3267A4A280275630E9EA5534854F273241191EFF",
+        "ModifiedDate":  "2022-03-06T01:05:07.9038599+00:00"
+    },
+    {
+        "Name":  "Packet wait play sound",
+        "Description":  "Add a packet wait entry to play a sound when trade window is opened",
+        "Author":  "Reetus",
+        "Era":  "Any",
+        "Id":  "f8c255db-e009-4021-98e0-d002ae0f65af",
+        "Categories":  [
+                           "Advanced",
+                           "Examples"
+                       ],
+        "FileName":  "Advanced\\Examples\\playsound_trade_window.py",
+        "Size":  422,
+        "SHA1":  "292CA1DE19863C1CC7F7D2E7FCC48DD05DD79C78",
+        "ModifiedDate":  "2022-03-06T01:05:07.9038599+00:00"
+    },
+    {
+        "Name":  "Animal Lore Gump HP",
+        "Description":  "Use gump parser to extract hp / maxhp from animal lore gump",
+        "Author":  "Reetus",
+        "Shard":  "OSI",
+        "Id":  "68920b44-2012-4791-8c41-be114fb54f82",
+        "Categories":  [
+                           "Advanced",
+                           "Gumps"
+                       ],
+        "FileName":  "Advanced\\Gumps\\extract_hp_alore_gump.py",
+        "Size":  722,
+        "SHA1":  "E76E7BB6AAC6258E9C36C86485C22F4729ED1DD9",
+        "ModifiedDate":  "2022-03-06T01:05:07.9048741+00:00"
+    },
+    {
+        "Name":  "Faster Run",
+        "Description":  "Run without waiting for movement accepted packets to speed up movement",
+        "Author":  "Reetus",
+        "Era":  "Any",
+        "Id":  "b79b0b63-d4f7-4a4c-96ed-d805356ecd03",
+        "Categories":  [
+                           "Advanced",
+                           "Movement"
+                       ],
+        "FileName":  "Advanced\\Movement\\faster_run.py",
+        "Size":  678,
+        "SHA1":  "5774224E17B72177B4637C9B40C0B5574C9D9B88",
+        "ModifiedDate":  "2022-03-06T01:05:07.9048741+00:00"
+    },
+    {
+        "Name":  "Sampire AI 0.1.2",
+        "Description":  "Automate Sampire build to cast proper abilities, move, loot and e.t.c",
+        "Author":  "Mordor",
+        "Era":  "TOL",
+        "Id":  "eedcb7c8-014d-41b8-b630-3a869375b52d",
+        "Categories":  [
+                           "Advanced",
+                           "Sampire"
+                       ],
+        "FileName":  "Advanced\\Sampire\\sampire_ai.py",
+        "Size":  9306,
+        "SHA1":  "82EB8FEB31C4E871D6394CC002CAEC6846C2DC22",
+        "ModifiedDate":  "2022-03-06T01:05:07.9058739+00:00"
+    },
+    {
+        "Name":  "Durability check",
+        "Description":  "Checks all items for durability and show alerts",
+        "Author":  "Mordor",
+        "Era":  "AOS",
+        "Id":  "d5bb848c-031f-4c91-ada0-8eaee74d4096",
+        "Categories":  "Common",
+        "FileName":  "Common\\check_durability.py",
+        "Size":  1409,
+        "SHA1":  "F3E1BB374BDEA0CB461D28C29112080B4E6C1971",
+        "ModifiedDate":  "2022-03-06T01:05:07.9068711+00:00"
+    },
+    {
+        "Name":  "Mobile Query",
+        "Description":  "Use as a background macro to refresh health bars",
+        "Author":  "Reetus",
+        "Shard":  "OSI",
+        "Id":  "25f53ed6-a8da-4ca2-80fc-dc9e8205150d",
+        "Categories":  "Common",
+        "FileName":  "Common\\mobile_query.py",
+        "Size":  455,
+        "SHA1":  "E53260F002E43710DF8E34B47CC52E75B0FA02DD",
+        "ModifiedDate":  "2022-03-06T01:05:07.9068711+00:00"
+    },
+    {
+        "Name":  "Carpentry from 30 to 100",
+        "Description":  "This macro is designed to help you level up your Carpentry skill.",
+        "Author":  "angeloghiotto",
+        "Shard":  "The crossroads ",
+        "Id":  "c1cf4379-b520-4aaf-8ada-487e776d75bf",
+        "Categories":  "Crafting",
+        "FileName":  "Crafting\\carpentryfrom3to1.py",
+        "Size":  3490,
+        "SHA1":  "B2E748333DB44894FFD04ACA654A4B0E2D299C41",
+        "ModifiedDate":  "2025-06-06T00:21:43.4346453+00:00"
+    },
+    {
+        "Name":  "Lumberjacker ",
+        "Description":  "Use runic atlas (3 or 4) with 48 runes on each, 1 hatchet, full LRC suit",
+        "Author":  "ziox-b (inspired by \"Cray\" script)",
+        "Shard":  "UO Heritage",
+        "Id":  "876af5df-bc1f-43e6-ba2e-f5e4c8ae6f66",
+        "Categories":  "Crafting",
+        "FileName":  "Crafting\\HUO-Lumberjacker.py",
+        "Size":  2494,
+        "SHA1":  "54F085C117EA68B1B0704342DC93E09DE3F9C3CA",
+        "ModifiedDate":  "2022-03-06T01:05:07.9088737+00:00"
+    },
+    {
+        "Name":  "Make Last and Sell",
+        "Description":  "This will use make last in a crafting gump, and attempt to sell to a nearby vendor",
+        "Author":  "Bittiez",
+        "Shard":  "Ruins and Riches",
+        "Id":  "6a89218b-d33c-4ce4-b6ee-59b876a1779b",
+        "Categories":  "Crafting",
+        "FileName":  "Crafting\\makelastsell.py",
+        "Size":  701,
+        "SHA1":  "473EF47D8C48F00D5A1DA565984EA3030A600CB5",
+        "ModifiedDate":  "2022-07-06T02:40:20.1061813+00:00"
+    },
+    {
+        "Name":  "Potion Maker",
+        "Description":  "Crafts selected potions up to selected amounts",
+        "Author":  "Kakagriss",
+        "Shard":  "UOG-Demise",
+        "Id":  "0291fd7a-3875-4e59-a556-dd57a61e161a",
+        "Categories":  "Crafting",
+        "FileName":  "Crafting\\potionmaker.py",
+        "Size":  7062,
+        "SHA1":  "F59E3DB9B760CAF1D03397039B78E197978484A5",
+        "ModifiedDate":  "2022-03-06T01:05:07.9098735+00:00"
+    },
+    {
+        "Name":  "Recall Mining Margo Ver",
+        "Description":  "2타일 내 마이닝 수행 ",
+        "Author":  "LastEnvoy",
+        "Shard":  "Margo",
+        "Id":  "6ffb6dc7-1f42-40a8-acdc-69fe54d19763",
+        "Categories":  "Crafting",
+        "FileName":  "Crafting\\recallminingmargover.py",
+        "Size":  5518,
+        "SHA1":  "0F40614850DB134EFFC1AE7982202C620D88D5CC",
+        "ModifiedDate":  "2023-12-23T08:19:03.9827845+00:00"
+    },
+    {
+        "Name":  "Scroll Maker",
+        "Description":  "Crafts selected scrolls up to selected amount. Read instructions",
+        "Author":  "Kakagriss",
+        "Shard":  "UOG-Demise",
+        "Id":  "64f48a8e-5b6b-4600-9860-e71b061ad7a4",
+        "Categories":  "Crafting",
+        "FileName":  "Crafting\\scrollmaker.py",
+        "Size":  8973,
+        "SHA1":  "260C7F5BA54E3E3D482CF4EA3122B25660DCFF86",
+        "ModifiedDate":  "2022-03-06T01:05:07.9098735+00:00"
+    },
+    {
+        "Name":  "Smelt Items",
+        "Description":  "Smelts all items of a specified type",
+        "Author":  "Bittiez",
+        "Shard":  "Ruins and Riches",
+        "Id":  "e86cc442-3292-442e-babf-1fd2c754b182",
+        "Categories":  "Crafting",
+        "FileName":  "Crafting\\smeltitems.py",
+        "Size":  662,
+        "SHA1":  "53C3D0750341671C7B54AC07B6FF970A750945C5",
+        "ModifiedDate":  "2022-07-06T02:58:35.1021324+00:00"
+    },
+    {
+        "Name":  "Potion Factory",
+        "Description":  "Crafts the selected potion up to the selected maximum amount",
+        "Author":  "Reetus",
+        "Shard":  "UO Heritage",
+        "Id":  "644c7954-1d84-44b5-ae2e-451b93d126dc",
+        "Categories":  [
+                           "Crafting",
+                           "Alchemy"
+                       ],
+        "FileName":  "Crafting\\Alchemy\\potion_crafter.py",
+        "Size":  2640,
+        "SHA1":  "4C3EBE2E5D7CACA131C0AAE26D23EE4BB19B29A4",
+        "ModifiedDate":  "2022-03-06T01:05:07.9078730+00:00"
+    },
+    {
+        "Name":  "Add to deed created items",
+        "Description":  "Search and add items corresponding to prompted deed. Gumps for deed may vary in different shards.",
+        "Author":  "Aru",
+        "Era":  "AOS",
+        "Id":  "8933637a-ccc6-4685-833f-20b782b0781e",
+        "Categories":  [
+                           "Crafting",
+                           "Blacksmith"
+                       ],
+        "FileName":  "Crafting\\Blacksmith\\AddToDeedCreatedItems.py",
+        "Size":  1349,
+        "SHA1":  "EE70164CBD49CEE805ACDE5153BE46FD25A024A9",
+        "ModifiedDate":  "2022-03-06T01:05:07.9088737+00:00"
+    },
+    {
+        "Name":  "Smelt all items by prompted type",
+        "Description":  "Search and smelt all items (by type) from backpack. Uses prompt for get item type. Change {hammer_name} to current name in shard of hammer. Gumps may vary in other shards.",
+        "Author":  "Aru",
+        "Era":  "AOS",
+        "Id":  "8810665a-f70f-4f4e-9619-c52d2170afff",
+        "Categories":  [
+                           "Crafting",
+                           "Blacksmith"
+                       ],
+        "FileName":  "Crafting\\Blacksmith\\SmeltPromptedItems.py",
+        "Size":  1554,
+        "SHA1":  "97C4EB329EB05A5E97CE65249CF7467913007DEC",
+        "ModifiedDate":  "2022-03-06T01:05:07.9088737+00:00"
+    },
+    {
+        "Name":  "Smelt Ore",
+        "Description":  "Smelt ore from a container and put ingots into container",
+        "Author":  "Reetus",
+        "Era":  "Any",
+        "Id":  "3b47e7a8-85a8-419d-9b29-1202fecafbfb",
+        "Categories":  [
+                           "Crafting",
+                           "Mining"
+                       ],
+        "FileName":  "Crafting\\Mining\\smelt_ore.py",
+        "Size":  858,
+        "SHA1":  "2A16A300A498ECC4A71F48CC06084D859ACBA380",
+        "ModifiedDate":  "2022-03-06T01:05:07.9098735+00:00"
+    },
+    {
+        "Name":  "Tailor Bod Filler",
+        "Description":  "This will fill all BODs from a Source BOD Book.",
+        "Author":  "raveX",
+        "Era":  "Any",
+        "Id":  "2d980211-efb1-4466-be5c-93bbfa1e0edf",
+        "Categories":  [
+                           "Crafting",
+                           "Tailoring"
+                       ],
+        "FileName":  "Crafting\\Tailoring\\tailor-bod-filler.py",
+        "Size":  24861,
+        "SHA1":  "EBCB014280AE8F53FDEC34ACFD46910117372234",
+        "ModifiedDate":  "2022-03-06T01:05:07.9098735+00:00"
+    },
+    {
+        "Name":  "Boat Control UI",
+        "Description":  "Boat control UI like UO rudder for navigating around in a boat, with text commands",
+        "Author":  "Reetus",
+        "Era":  "Any",
+        "Id":  "0e1636a6-5371-406f-b4ab-e6bac964e8fa",
+        "Categories":  "Misc",
+        "FileName":  "Misc\\boatcontrolui.py",
+        "Size":  3813,
+        "SHA1":  "0E07991DD7F41D3B4FFD38F9BE61DF80A14769C6",
+        "ModifiedDate":  "2022-03-06T01:05:07.9108722+00:00"
+    },
+    {
+        "Name":  "Bandage Dual \u0026 Solo Pets",
+        "Description":  "Auto bandage pets",
+        "Author":  " qk",
+        "Era":  "Any",
+        "Id":  "e5d97da5-ba81-4cf9-b9a6-64c185e88ecc",
+        "Categories":  "PVM",
+        "FileName":  "PVM\\bandage_pets.py",
+        "Size":  6299,
+        "SHA1":  "723CC6EF45DEFFE3C4CD423F7218D2F38C9A5A94",
+        "ModifiedDate":  "2022-03-06T01:05:07.9108722+00:00"
+    },
+    {
+        "Name":  "Auto Miner",
+        "Description":  "Unattended cave mining",
+        "Author":  "Batt11",
+        "Shard":  "Dark Forest",
+        "Id":  "ef752032-51fb-4383-a77d-3694210bdd93",
+        "Categories":  "Resource Gathering",
+        "FileName":  "Resource Gathering\\autominer.py",
+        "Size":  3234,
+        "SHA1":  "47DEE5F03C211F23FB8872F5177CFD9DA04B753A",
+        "ModifiedDate":  "2022-03-06T01:05:07.9118728+00:00"
+    },
+    {
+        "Name":  "Collect BS/Tailor Deeds",
+        "Description":  "Collects Tailor and BS deeds from Luna NPCs, move them do Bulk Order Book named BS and Tailor respectively  and logout.",
+        "Author":  "MatheusPPfitscher",
+        "Shard":  "UOG-Demise",
+        "Id":  "3c115b27-1398-420f-8855-3b4717edd26d",
+        "Categories":  "Resource Gathering",
+        "FileName":  "Resource Gathering\\CollectDeedsLuna.py",
+        "Size":  1407,
+        "SHA1":  "D5865C3207B4A07D4C40EDA08B212D280410AFCC",
+        "ModifiedDate":  "2024-10-06T09:46:23.8858978+00:00"
+    },
+    {
+        "Name":  "Lumberjack Near Me",
+        "Description":  "Attempts to chop all trees in a 10x10 area around you",
+        "Author":  "Bittiez",
+        "Shard":  "Ruins and Riches",
+        "Id":  "eb580959-6437-4f89-aa96-855bf6e8b35a",
+        "Categories":  "Resource Gathering",
+        "FileName":  "Resource Gathering\\lumberjackarea.py",
+        "Size":  3191,
+        "SHA1":  "F0649C2330D50710BFD23DED415EF44640478605",
+        "ModifiedDate":  "2022-07-06T02:58:35.1051314+00:00"
+    },
+    {
+        "Name":  "Mining Random Macro",
+        "Description":  "#MACRO MINER RANDOM ULTIMA MEMENTO/ODYSSEY/RNR",
+        "Author":  "Matayosl",
+        "Shard":  "Memento/Odyssey/RnR",
+        "Id":  "312c6367-fa14-4ffa-95b9-dc4ab264826a",
+        "Categories":  "Resource Gathering",
+        "FileName":  "Resource Gathering\\miningrandommacro.py",
+        "Size":  2572,
+        "SHA1":  "DD514E7B8D006A750A520D297663159B71B7140A",
+        "ModifiedDate":  "2025-09-27T05:53:55.6211317+00:00"
+    },
+    {
+        "Name":  "SOS Sail",
+        "Description":  "Sail to SOS Coordiate, in Felucca and Trammel",
+        "Author":  "ad960009",
+        "Era":  "AOS",
+        "Id":  "5119a094-1835-46c0-b063-932c9d4974d9",
+        "Categories":  "Resource Gathering",
+        "FileName":  "Resource Gathering\\SOSSail.py",
+        "Size":  29866,
+        "SHA1":  "023B67AE60311A3E50E5DE3D38ABC7D6EEAB168A",
+        "ModifiedDate":  "2022-03-06T01:05:07.9118728+00:00"
+    },
+    {
+        "Name":  "Leather Gatherer",
+        "Description":  "Gathers leather from corpses next to you. Read instructions.",
+        "Author":  "Kakagriss",
+        "Shard":  "UOG-Demise",
+        "Id":  "740dffea-7f07-48a9-aa66-a64d672b27bc",
+        "Categories":  "Resources",
+        "FileName":  "Resources\\leathergatherer.py",
+        "Size":  833,
+        "SHA1":  "9A25341C299BBECFFE805FD67799F6000691F3FC",
+        "ModifiedDate":  "2022-03-06T01:05:07.9118728+00:00"
+    },
+    {
+        "Name":  "Recall Lumber",
+        "Description":  "Chops down trees recalling through given runebooks.",
+        "Author":  "Kakagriss",
+        "Shard":  "UOG-Demise",
+        "Id":  "3f62853c-b7b8-4a63-841f-851c7df15cc6",
+        "Categories":  "Resources",
+        "FileName":  "Resources\\recalllumber.py",
+        "Size":  3122,
+        "SHA1":  "E4FE9ECC34E99CF3FB71809E3F9BEC6E627DFC65",
+        "ModifiedDate":  "2022-03-06T01:05:07.9128740+00:00"
+    },
+    {
+        "Name":  "Recall Miner",
+        "Description":  "Mines ore recalling through given runebooks. Read instructions",
+        "Author":  "Kakagriss",
+        "Shard":  "UOG-Demise",
+        "Id":  "ace477c0-2e4b-4260-ae00-78dabbb8299a",
+        "Categories":  "Resources",
+        "FileName":  "Resources\\recallminer.py",
+        "Size":  4365,
+        "SHA1":  "8C6A338033137CBB37E5E7A0D1771CFDE3C0E2D5",
+        "ModifiedDate":  "2022-03-06T01:05:07.9128740+00:00"
+    },
+    {
+        "Name":  "Arms Lore Training",
+        "Description":  "Used for training arms lore on as many items as you wish",
+        "Author":  "bittiez",
+        "Shard":  "Ruins and Riches",
+        "Id":  "f7c21880-6fac-4d5f-b3f8-d5677c167cc8",
+        "Categories":  "Skill Training",
+        "FileName":  "Skill Training\\armsloretraining.py",
+        "Size":  836,
+        "SHA1":  "715AE678285165D1043E4F47F8D6349CC1BBF7CB",
+        "ModifiedDate":  "2022-07-06T02:41:22.3132858+00:00"
+    },
+    {
+        "Name":  "Circuit Trap Solver",
+        "Description":  "Solves the \u0027Circuit Trap Training Kit\u0027 by checking the gump elements for available moves, remembering successful ones, and removing failed moves from available moves, only tested on UOAlive",
+        "Author":  "Reetus",
+        "Shard":  "UOAlive",
+        "Id":  "dbb2059e-0cdc-4cb7-bf8d-25a608df0f8f",
+        "Categories":  "Skills",
+        "FileName":  "Skills\\circuittrapsolver.py",
+        "Size":  2309,
+        "SHA1":  "1DD427DD646C814D6EC1BDDDF7958B45B7512F08",
+        "ModifiedDate":  "2024-02-11T03:53:51.3654346+00:00"
+    },
+    {
+        "Name":  "Lockpick training helper",
+        "Description":  "set the key, box. Have alot of lockpicks, run script.",
+        "Author":  "merlottt",
+        "Shard":  "uogames.org",
+        "Id":  "d2921dca-e8b0-4ee3-be8e-44e9565f7ddb",
+        "Categories":  "Skills",
+        "FileName":  "Skills\\lockpicktraininghelper.py",
+        "Size":  760,
+        "SHA1":  "B340C28A9A589E5D39A512EB906EE1F939CFCAC4",
+        "ModifiedDate":  "2022-11-16T00:17:36.7562076+00:00"
+    },
+    {
+        "Name":  "Train Chivalry",
+        "Description":  "This will train your Chivalry to 120.",
+        "Author":  "OnlyAware",
+        "Shard":  "UO Dreams World",
+        "Id":  "f5df00f3-d782-4b0a-ae08-887ee3e37354",
+        "Categories":  "Skills",
+        "FileName":  "Skills\\trainchivalry.py",
+        "Size":  729,
+        "SHA1":  "1643F3E52F9E955B3F233CCD86395C6F96A7C8DD",
+        "ModifiedDate":  "2022-07-05T04:32:00.4842116+00:00"
+    },
+    {
+        "Name":  "Training",
+        "Description":  "Training inscription from 30 to 100",
+        "Author":  "Lissandro",
+        "Shard":  "UOG-Demise",
+        "Id":  "ed21069c-6ed6-497f-ba8f-46a595145a4e",
+        "Categories":  "Skills",
+        "FileName":  "Skills\\training.py",
+        "Size":  6454,
+        "SHA1":  "3CE7CD8749183D8F4C9E43435B5475475F0E43B4",
+        "ModifiedDate":  "2024-11-05T00:21:47.2017539+00:00"
+    },
+    {
+        "Name":  "Training Magery",
+        "Description":  "Train magery skill until the goal you want.",
+        "Author":  "Lissandro",
+        "Shard":  "UOG-Demise",
+        "Id":  "1ec5340d-b09a-4248-9fb1-461d4a646404",
+        "Categories":  "Skills",
+        "FileName":  "Skills\\trainingmagery.py",
+        "Size":  1117,
+        "SHA1":  "E0205573C60BF0DE61FD7FFF83D148E5FED61DA2",
+        "ModifiedDate":  "2024-08-29T02:48:14.3795596+00:00"
+    },
+    {
+        "Name":  "Training Spelweaving",
+        "Description":  "Insert your goal skill and press play to start training spelweaving",
+        "Author":  "Lissandro",
+        "Shard":  "The Crossroads",
+        "Id":  "1cd753f5-6d89-4150-9d6e-e0ae23104d2a",
+        "Categories":  "Skills",
+        "FileName":  "Skills\\trainingspelweaving.py",
+        "Size":  2086,
+        "SHA1":  "687B6CC2656F7ACF7AD24322CA186E847CBF452A",
+        "ModifiedDate":  "2025-08-01T10:44:05.7559929+00:00"
+    },
+    {
+        "Name":  "Train Necromancy",
+        "Description":  "you need Wraith,Horrific and Lich form spells",
+        "Author":  "merlottt",
+        "Shard":  "uogames.org",
+        "Id":  "deaac96f-01b4-4f39-a7c5-fc9004f8e971",
+        "Categories":  "Skills",
+        "FileName":  "Skills\\trainnecromancy.py",
+        "Size":  522,
+        "SHA1":  "204D9E850A4025F5A85D76024A1038FB81B04844",
+        "ModifiedDate":  "2022-11-22T00:55:01.1644346+00:00"
+    },
+    {
+        "Name":  "Pet Skills Window",
+        "Description":  "Pet skills window similiar to skills tab showing value / cap / delta, useful when training pets",
+        "Author":  "Reetus",
+        "Shard":  "Margo",
+        "Id":  "6b927437-1730-4750-b3a5-297a119b4989",
+        "Categories":  [
+                           "Skills",
+                           "Animal Lore"
+                       ],
+        "FileName":  "Skills\\Animal Lore\\petskillswindow.py",
+        "Size":  6041,
+        "SHA1":  "B8F91E838F39CEA45DC138E4172E2DDBD088672A",
+        "ModifiedDate":  "2023-01-16T03:13:29.7346409+00:00"
+    },
+    {
+        "Name":  "Animal Taming training",
+        "Description":  "Tames nearby animals to train Animal Taming to GM (to 90 by default) with healing, killing and basic pathfinding",
+        "Author":  "Mordor",
+        "Era":  "Any",
+        "Id":  "f315487a-dd9e-42d4-8843-8d0c315acd5d",
+        "Categories":  [
+                           "Skills",
+                           "Animal Taming"
+                       ],
+        "FileName":  "Skills\\Animal Taming\\train_animal_taming.py",
+        "Size":  20753,
+        "SHA1":  "19893486B73B1DBD5438A7F3BA5073C2DF15945E",
+        "ModifiedDate":  "2022-03-06T01:05:07.9138847+00:00"
+    },
+    {
+        "Name":  "Animal Taming training from 90 to cap",
+        "Description":  "Uses Animal Taming master ability on target to train Animal Taming from 90 to cap",
+        "Author":  "Mordor",
+        "Era":  "TOL",
+        "Id":  "f27771c2-4cc0-48a9-a720-8d9060ce4ef5",
+        "Categories":  [
+                           "Skills",
+                           "Animal Taming"
+                       ],
+        "FileName":  "Skills\\Animal Taming\\train_animal_taming_mastery.py",
+        "Size":  706,
+        "SHA1":  "5D18982F9059D0A7407EEBA979E51739D19738D8",
+        "ModifiedDate":  "2022-03-06T01:05:07.9148732+00:00"
+    },
+    {
+        "Name":  "Discordance training",
+        "Description":  "Uses the Discordance skill on the player to train Discordance to GM",
+        "Author":  "Mordor",
+        "Era":  "Any",
+        "Id":  "e745e6a1-f84d-4eb8-b6b9-540ab41d42e0",
+        "Categories":  [
+                           "Skills",
+                           "Discordance"
+                       ],
+        "FileName":  "Skills\\Discordance\\train_discordance.py",
+        "Size":  2520,
+        "SHA1":  "A3B27DD931F0D8E8A24026B250867093047F7493",
+        "ModifiedDate":  "2022-03-06T01:05:07.9148732+00:00"
+    },
+    {
+        "Name":  "Evaluating Intelligence training to cap",
+        "Description":  "Uses Reactive Armor to train Evaluating Intelligence to the cap",
+        "Author":  "Mordor",
+        "Era":  "Any",
+        "Id":  "bf2ff74d-0d22-4cfd-8339-843ffa4c66d9",
+        "Categories":  [
+                           "Skills",
+                           "Evaluating Intelligence"
+                       ],
+        "FileName":  "Skills\\Evaluating Intelligence\\train_evaluating_intelligence.py",
+        "Size":  576,
+        "SHA1":  "28108EDDAAA8C7F6C7C4437C9B2E98AEB4BA35BC",
+        "ModifiedDate":  "2022-03-06T01:05:07.9158729+00:00"
+    },
+    {
+        "Name":  "Healing Trainer",
+        "Description":  "A simple to use healing trainer that uses magic arrow to damage yourself then heal use bandages",
+        "Author":  "vertex101",
+        "Era":  "Any",
+        "Id":  "77360028-31cf-4eea-8be0-73c66fc0227f",
+        "Categories":  [
+                           "Skills",
+                           "Healing"
+                       ],
+        "FileName":  "Skills\\Healing\\healingtrainer.py",
+        "Size":  814,
+        "SHA1":  "8A6B7C960700ACDFF8A27800A50BD472E8794417",
+        "ModifiedDate":  "2022-03-06T01:05:07.9158729+00:00"
+    },
+    {
+        "Name":  "Magery training to cap",
+        "Description":  "Train Magery to cap",
+        "Author":  "Mordor",
+        "Era":  "Any",
+        "Id":  "6b22f6bf-d4cf-4aed-abd5-171f34817508",
+        "Categories":  [
+                           "Skills",
+                           "Magery"
+                       ],
+        "FileName":  "Skills\\Magery\\train_magery.py",
+        "Size":  1665,
+        "SHA1":  "4BC6231C5C45C57CAA344B0D4C9D49EA9084E0F1",
+        "ModifiedDate":  "2022-03-06T01:05:07.9168732+00:00"
+    },
+    {
+        "Name":  "Mysticism training to cap",
+        "Description":  "Train Mysticism to cap",
+        "Author":  "Mordor",
+        "Era":  "TOL",
+        "Id":  "b7e1f6a5-04a9-4609-96ca-f692bbd2318c",
+        "Categories":  [
+                           "Skills",
+                           "Mysticism"
+                       ],
+        "FileName":  "Skills\\Mysticism\\train_mysticism.py",
+        "Size":  1286,
+        "SHA1":  "F6B21BA9450CFDA67D993FBCB7E3174B1A368C9D",
+        "ModifiedDate":  "2022-03-06T01:05:07.9168732+00:00"
+    },
+    {
+        "Name":  "Peacemaking training",
+        "Description":  "Uses the Peacemaking skill on the player to train Peacemaking to GM",
+        "Author":  "Mordor",
+        "Era":  "Any",
+        "Id":  "8702cfa1-428f-4cc0-8584-4279d79061dd",
+        "Categories":  [
+                           "Skills",
+                           "Peacemaking"
+                       ],
+        "FileName":  "Skills\\Peacemaking\\train_peacemaking.py",
+        "Size":  3056,
+        "SHA1":  "37FD3B40A6E2A0E2FA1B82B6588EF0E27B5C9FA9",
+        "ModifiedDate":  "2022-03-06T01:05:07.9178730+00:00"
+    },
+    {
+        "Name":  "Provocation training",
+        "Description":  "Uses the Provocation skill on the player to train Provocation to GM",
+        "Author":  "Mordor",
+        "Era":  "Any",
+        "Id":  "44bb2489-05b0-4859-8ae4-b051e9882389",
+        "Categories":  [
+                           "Skills",
+                           "Provocation"
+                       ],
+        "FileName":  "Skills\\Provocation\\train_provocation.py",
+        "Size":  2810,
+        "SHA1":  "9A5F41F4D0844165CEDC08CAAFC7673685447FA9",
+        "ModifiedDate":  "2022-03-06T01:05:07.9178730+00:00"
+    },
+    {
+        "Name":  "Make Last Item",
+        "Description":  "Asks you how many items you would like to make using make last",
+        "Author":  "Bittiez",
+        "Shard":  "Ruins and Riches",
+        "Id":  "d53637b3-6f35-4993-8a73-96596dd4427b",
+        "Categories":  "Skills Crafting",
+        "FileName":  "Skills Crafting\\makelastcount.py",
+        "Size":  373,
+        "SHA1":  "4816C0F24CADF761ECFD35834E452E1D6BF0B816",
+        "ModifiedDate":  "2022-07-06T02:58:35.1071303+00:00"
+    },
+    {
+        "Name":  "Simple Miner",
+        "Description":  "A simple miner i have made that mines until a certain weight is met then just recalls to the blacksmith area in luna to smelt the ore and bank then the script stops and will start when i make it back the my mining area",
+        "Author":  "HellForge",
+        "Era":  "Any",
+        "Id":  "adc4676e-63ed-43f4-bfd7-300ab67002be",
+        "Categories":  "Skills Crafting",
+        "FileName":  "Skills Crafting\\simpleminer.py",
+        "Size":  484,
+        "SHA1":  "1B39937F242E483186542F0D59297EFEA6E33D87",
+        "ModifiedDate":  "2022-03-06T01:05:07.9138847+00:00"
+    },
+    {
+        "Name":  "Combine Stacks",
+        "Description":  "Combine multiple stacks of the same item id into one (or more) stacks of 60000",
+        "Author":  "Reetus",
+        "Era":  "Any",
+        "Id":  "20fc30c1-785e-4b7d-ac6e-2a88c0cb840d",
+        "Categories":  "Utility",
+        "FileName":  "Utility\\combinestacks.py",
+        "Size":  1278,
+        "SHA1":  "950996E70104A3483B02B21118087D52C00E88C7",
+        "ModifiedDate":  "2022-03-06T01:05:07.9188735+00:00"
+    },
+    {
+        "Name":  "JelweryBox Filter",
+        "Description":  "open, load, scan, drop item from jelwery box based on props array setted on code (version with gui)",
+        "Author":  "... d0tsd0tsd0ts",
+        "Shard":  "UOG-Demise",
+        "Id":  "9f2e89ee-2905-4976-a1d6-503c5731fc46",
+        "Categories":  "Utility",
+        "FileName":  "Utility\\jelweryboxfilter.py",
+        "Size":  8991,
+        "SHA1":  "1CA8632C71332F3CA62260C9B0EFCE7E5F3F01BC",
+        "ModifiedDate":  "2024-09-07T02:27:09.1109946+00:00"
+    },
+    {
+        "Name":  "Macro UI Customize",
+        "Description":  "매크로 사용자 UI 를 만듭니다",
+        "Author":  "yangpa",
+        "Shard":  "Margo",
+        "Id":  "9388d657-1a61-45d9-a0a9-54f7990e4ba5",
+        "Categories":  "Utility",
+        "FileName":  "Utility\\MacroUI.py",
+        "Size":  2820,
+        "SHA1":  "C090B02451B0E011EDEB3461C26C3CFD56D9202B",
+        "ModifiedDate":  "2025-05-22T21:56:29.7087947+00:00"
+    },
+    {
+        "Name":  "Recall Buyer",
+        "Description":  "Buys everything in your active AutoBuy agent and goes through given runebooks. Read instructions.",
+        "Author":  "Kakagriss",
+        "Shard":  "UOG-Demise",
+        "Id":  "60610952-fab0-4049-9610-4fe3f4dd5ba9",
+        "Categories":  "Utility",
+        "FileName":  "Utility\\recallbuyer.py",
+        "Size":  4593,
+        "SHA1":  "514328168DB2C15D2252934F0A424460C2EF77C7",
+        "ModifiedDate":  "2022-03-06T01:05:07.9188735+00:00"
+    },
+    {
+        "Name":  "Runebook Cloner",
+        "Description":  "Clones given runebook in one or more blank books.",
+        "Author":  "Kakagriss",
+        "Shard":  "UOG-Demise",
+        "Id":  "26f0b56b-99ca-40b7-bb5a-6ee4d19f9460",
+        "Categories":  "Utility",
+        "FileName":  "Utility\\runebookcloner.py",
+        "Size":  3593,
+        "SHA1":  "B57652AC48A691C414FFC0F78024757C1911FFD4",
+        "ModifiedDate":  "2022-03-06T01:05:07.9188735+00:00"
+    },
+    {
+        "Name":  "Set Z",
+        "Description":  "An example showing sending a custom mobile update packet to the client with a specified Z level",
+        "Author":  "Reetus",
+        "Era":  "Any",
+        "Id":  "b5dc4d54-531d-4326-8a2c-5a39e3e1b051",
+        "Categories":  "Utility",
+        "FileName":  "Utility\\setz.py",
+        "Size":  444,
+        "SHA1":  "ACDF04EB0F35CC7D118368764D0C0F1B35C22703",
+        "ModifiedDate":  "2022-03-06T01:05:07.9198759+00:00"
+    },
+    {
+        "Name":  "Treasure Map Decoder 001",
+        "Description":  "Decodes treasure maps and display runebook number",
+        "Author":  "qk",
+        "Shard":  "Any ",
+        "Id":  "9c469cba-0107-40ce-a7f0-0df222f70963",
+        "Categories":  "Utility",
+        "FileName":  "Utility\\Treasure Map Decoder.py",
+        "Size":  8203,
+        "SHA1":  "34BEE431E648A1F4C34496D3513C6E3EA9D6BE1F",
+        "ModifiedDate":  "2023-02-05T04:32:07.0803201+00:00"
+    }
+]
