@@ -14,6 +14,13 @@ cp -r "${APP_BINARY}" "${APP_DIR}/usr/bin/"
 cp -r "${ICON_PATH}" "${APP_DIR}/${APP_NAME}.png"
 cp "${DESKTOP_FILE}" "${APP_DIR}/"
 
+# Create AppRun entry point
+cat > "${APP_DIR}/AppRun" << 'EOF'
+#!/bin/bash
+exec "${APPDIR}/usr/bin/macros"
+EOF
+chmod +x "${APP_DIR}/AppRun"
+
 if [[ $(uname -m) == *x86_64* ]]; then
     # Download linuxdeploy and make it executable
     wget -q -4 -N https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
