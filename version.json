@@ -1,9 +1,14 @@
 {
   "current": {
-    "version": "0.0.5",
-    "date": "2026-07-26T23:10:00Z"
+    "version": "0.0.6",
+    "date": "2026-07-26T23:25:00Z"
   },
   "history": [
+    {
+      "version": "0.0.6",
+      "date": "2026-07-26T23:25:00Z",
+      "changelog": "Fix: AppImage crash (Macros lookup, AppRun)"
+    },
     {
       "version": "0.0.5",
       "date": "2026-07-26T23:10:00Z",

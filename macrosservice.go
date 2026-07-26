@@ -53,22 +53,36 @@ type MacrosService struct {
 }
 
 func NewMacrosService() *MacrosService {
-	wd, _ := os.Getwd()
-	root := filepath.Join(wd, "Macros")
-	for i := 0; i < 5; i++ {
-		if info, err := os.Stat(root); err == nil && info.IsDir() {
+	// Try multiple locations in order: cwd, executable dir, home
+	root := ""
+	dirs := []string{os.Getenv("APPDIR"), os.Getenv("HOME"), "."}
+	for _, d := range dirs {
+		if d == "" {
+			continue
+		}
+		candidate := filepath.Join(d, "Macros")
+		if info, err := os.Stat(candidate); err == nil && info.IsDir() {
+			root = candidate
 			break
 		}
-		wd = filepath.Dir(wd)
-		root = filepath.Join(wd, "Macros")
+	}
+	// Fallback: absolute path from executable
+	if root == "" {
+		exe, _ := os.Executable()
+		root = filepath.Join(filepath.Dir(exe), "Macros")
 	}
 	// If Macros/ doesn't exist on disk, extract from embedded FS
 	if _, err := os.Stat(root); os.IsNotExist(err) {
 		log.Println("Macros/ bulunamadı, embedded dosyalar çıkartılıyor...")
-		if err := extractEmbedded(macrosEmbed, "Macros", root); err != nil {
-			log.Printf("Uyarı: Macros/ çıkartılamadı: %v", err)
+		parent := filepath.Dir(root)
+		if err := os.MkdirAll(parent, 0755); err == nil {
+			if err := extractEmbedded(macrosEmbed, "Macros", root); err != nil {
+				log.Printf("Uyarı: Macros/ çıkartılamadı: %v", err)
+			} else {
+				log.Println("Macros/ başarıyla oluşturuldu.")
+			}
 		} else {
-			log.Println("Macros/ başarıyla oluşturuldu.")
+			log.Printf("Uyarı: Macros/ dizini oluşturulamadı: %v", err)
 		}
 	}
 	return &MacrosService{root: root}
