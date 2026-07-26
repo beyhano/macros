@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Tag, PlusCircle, History } from "lucide-react"
 import { Button } from "./ui/button"
 import Swal from "sweetalert2"
-import { GetAppVersion, GetVersionHistory, PublishVersion } from "../../bindings/changeme/macrosservice"
+import { GetAppVersion, GetVersionHistory, PublishVersion, GetReleaseCommand } from "../../bindings/changeme/macrosservice"
 
 interface AppVersion {
   version: string
@@ -25,7 +25,7 @@ export function VersionBadge() {
   }, [])
 
   const handlePublish = async () => {
-    const { value: changelog } = await Swal.fire({
+    const { value: form } = await Swal.fire({
       title: "Yeni versiyon yayınla",
       html: `
         <div style="text-align: left; font-size: 14px;">
@@ -57,21 +57,49 @@ export function VersionBadge() {
       color: document.documentElement.classList.contains("dark") ? "#cdd6f4" : "#1e1e2e",
     })
 
-    if (!changelog) return
+    if (!form) return
 
     try {
-      const newVer = await PublishVersion(changelog.changelog, changelog.bumpType)
+      const newVer = await PublishVersion(form.changelog, form.bumpType)
       setVersion(newVer ?? null)
-      Swal.fire({
+
+      // Show post-publish options
+      const cmd = await GetReleaseCommand()
+      const { isConfirmed: releaseNow } = await Swal.fire({
         icon: "success",
         title: `v${newVer?.version} yayınlandı!`,
-        timer: 2000,
-        showConfirmButton: false,
+        html: `
+          <div style="text-align: left; font-size: 14px; margin-top: 8px;">
+            <p style="margin-bottom: 8px;">GitHub Release'i de oluşturmak ister misin?</p>
+            <p style="font-size: 12px; color: #888;">Terminalde şu komutu çalıştırabilirsin:</p>
+            <code style="display: block; padding: 8px; background: #f5f5f5; border-radius: 4px; font-size: 13px; margin-top: 4px;">${cmd}</code>
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: "🚀 GitHub Release oluştur",
+        cancelButtonText: "Sonra",
+        confirmButtonColor: "#2563eb",
         background: document.documentElement.classList.contains("dark") ? "#1e1e2e" : "#ffffff",
         color: document.documentElement.classList.contains("dark") ? "#cdd6f4" : "#1e1e2e",
-        position: "bottom-end",
-        toast: true,
       })
+
+        if (releaseNow) {
+          Swal.fire({
+            title: "Terminalde çalıştır",
+            html: `
+              <div style="text-align: left; font-size: 14px;">
+                <p style="margin-bottom: 8px;">Release'i oluşturmak için terminalde şu komutu çalıştır:</p>
+                <code style="display: block; padding: 10px; background: #1e1e2e; color: #cdd6f4; border-radius: 6px; font-size: 13px; margin-top: 4px;">
+                  ./deploy.sh
+                </code>
+              </div>
+            `,
+          icon: "info",
+          confirmButtonText: "Tamam",
+          background: document.documentElement.classList.contains("dark") ? "#1e1e2e" : "#ffffff",
+          color: document.documentElement.classList.contains("dark") ? "#cdd6f4" : "#1e1e2e",
+        })
+      }
     } catch (err: any) {
       Swal.fire({
         icon: "error",
@@ -123,7 +151,11 @@ export function VersionBadge() {
                         <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
                           v{entry.version}
                         </span>
-                        <span className="text-xs text-zinc-400">{new Date(entry.date).toLocaleDateString("tr-TR", { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</span>
+                        <span className="text-xs text-zinc-400">
+                          {new Date(entry.date).toLocaleDateString("tr-TR", {
+                            year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
+                          })}
+                        </span>
                       </div>
                       <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 whitespace-pre-wrap">{entry.changelog}</p>
                     </div>

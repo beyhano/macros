@@ -39,6 +39,26 @@ tasks:
     cmds:
       - wails3 dev -config ./build/config.yml -port {{.VITE_PORT}}
 
+  release:
+    summary: Builds production binaries (linux + windows) and creates a GitHub Release
+    deps:
+      - task: build
+      - task: windows:build
+    cmds:
+      - |
+        set -euo pipefail
+        VERSION=$(python3 -c "import json; print(json.load(open('version.json'))['current']['version'])")
+        CHANGELOG=$(python3 -c "import json; h=json.load(open('version.json'))['history']; print(h[0]['changelog'] if h else 'Yeni sürüm')")
+        echo "📤 v$VERSION GitHub Release oluşturuluyor..."
+        gh release create "v$VERSION" \
+          --title "v$VERSION" \
+          --notes "$CHANGELOG" \
+          "./bin/macros#macros-linux-amd64" \
+          "./bin/macros.exe#macros-windows-amd64.exe"
+        echo ""
+        echo "✅ v$VERSION yayınlandı!"
+        echo "   https://github.com/beyhano/macros/releases/tag/v$VERSION"
+
   setup:docker:
     summary: Builds Docker image for cross-compilation (~800MB download)
     cmds:

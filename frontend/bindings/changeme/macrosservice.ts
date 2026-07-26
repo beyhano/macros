@@ -22,6 +22,13 @@ export function GetAppVersion(): $CancellablePromise<$models.AppVersionInfo | nu
 }
 
 /**
+ * GetReleaseCommand returns the shell command to create a GitHub Release.
+ */
+export function GetReleaseCommand(): $CancellablePromise<string> {
+    return $Call.ByID(2002886338);
+}
+
+/**
  * GetRootPath returns the absolute path of the Macros directory.
  */
 export function GetRootPath(): $CancellablePromise<string> {

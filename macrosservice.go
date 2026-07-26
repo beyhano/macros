@@ -431,3 +431,8 @@ func (s *MacrosService) PublishVersion(changelog string, bumpType string) (*AppV
 	}
 	return &m.Current, nil
 }
+
+// GetReleaseCommand returns the shell command to create a GitHub Release.
+func (s *MacrosService) GetReleaseCommand() string {
+	return "./deploy.sh"
+}
