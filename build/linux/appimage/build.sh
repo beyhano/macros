@@ -21,9 +21,12 @@ if [[ $(uname -m) == *x86_64* ]]; then
 
     # Remove the gtk plugin (gtk-4.0 modules not available on this distro)
     rm -f "${APP_DIR}/../linuxdeploy-plugin-gtk.sh" 2>/dev/null || true
+    # Prevent linuxdeploy from re-downloading it
+    export DISABLE_PLUGINS=1
 
     # Run linuxdeploy to bundle the application
     ./linuxdeploy-x86_64.AppImage --appdir "${APP_DIR}" --output appimage
+    unset DISABLE_PLUGINS
 else
     # Download linuxdeploy and make it executable (arm64)
     wget -q -4 -N https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-aarch64.AppImage

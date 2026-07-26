@@ -1,9 +1,14 @@
 {
   "current": {
-    "version": "0.0.3",
-    "date": "2026-07-26T19:28:32Z"
+    "version": "0.0.4",
+    "date": "2026-07-26T22:45:00Z"
   },
   "history": [
+    {
+      "version": "0.0.4",
+      "date": "2026-07-26T22:45:00Z",
+      "changelog": "Fix: AppImage build (gtk plugin devre dışı), Macros/ embed"
+    },
     {
       "version": "0.0.3",
       "date": "2026-07-26T19:28:32Z",
