@@ -20,23 +20,32 @@ wails3 task build
 echo "🏗️  Windows binary..."
 wails3 task windows:build
 
-# 4. Build Linux AppImage
+# 4. Build Linux AppImage (our custom build.sh with DISABLE_PLUGINS=1)
 echo "🏗️  Linux AppImage..."
-# Clean old AppDir first
 rm -rf build/linux/appimage/build/macros-x86_64.AppDir
 rm -f build/linux/appimage/build/macros-x86_64.AppImage
-# Fix icon naming in build.sh
-sed -i 's/cp "${ICON_PATH}" "${APP_DIR}\/"/cp "${ICON_PATH}" "${APP_DIR}\/${APP_NAME}.png"/' build/linux/appimage/build.sh 2>/dev/null || true
-wails3 task linux:create:appimage 2>&1 || echo "   (AppImage build uyarılarla tamamlandı, mevcut AppImage kullanılacak)"
+
+# Run build.sh directly so env vars are honored
+cd build/linux/appimage/build
+APP_NAME=macros \
+APP_BINARY=../../../bin/macros \
+ICON_PATH=../../appicon.png \
+DESKTOP_FILE=../../macros.desktop \
+NO_STRIP=1 \
+DISABLE_PLUGINS=1 \
+bash ../build.sh 2>&1 || echo "   (AppImage build devam etti)"
+cd ../../..
+
+# Copy AppImage to bin
 if [ -f build/linux/appimage/build/macros-x86_64.AppImage ]; then
   cp build/linux/appimage/build/macros-x86_64.AppImage bin/macros.AppImage
   echo "   ✅ AppImage: bin/macros.AppImage"
 else
-  echo "   ⚠️  AppImage oluşturulamadı, binary'ler yükleniyor"
+  echo "   ⚠️  AppImage oluşturulamadı"
 fi
 echo ""
 
-# 5. GitHub Release — varsa güncelle, yoksa oluştur
+# 5. GitHub Release
 echo "📤 GitHub Release gönderiliyor..."
 CHANGELOG=$(python3 -c "import json; h=json.load(open('version.json'))['history']; print(h[0]['changelog'] if h else 'Yeni sürüm')")
 
