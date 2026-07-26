@@ -20,31 +20,39 @@ wails3 task build
 echo "🏗️  Windows binary..."
 wails3 task windows:build
 
-# 4. Build Linux AppImage (sadece AppImage, deb/rpm/aur atlanır)
+# 4. Build Linux AppImage
 echo "🏗️  Linux AppImage..."
-wails3 task linux:create:appimage
-cp build/linux/appimage/build/macros-x86_64.AppImage bin/macros.AppImage
+# Clean old AppDir first
+rm -rf build/linux/appimage/build/macros-x86_64.AppDir
+rm -f build/linux/appimage/build/macros-x86_64.AppImage
+# Fix icon naming in build.sh
+sed -i 's/cp "${ICON_PATH}" "${APP_DIR}\/"/cp "${ICON_PATH}" "${APP_DIR}\/${APP_NAME}.png"/' build/linux/appimage/build.sh 2>/dev/null || true
+wails3 task linux:create:appimage 2>&1 || echo "   (AppImage build uyarılarla tamamlandı, mevcut AppImage kullanılacak)"
+if [ -f build/linux/appimage/build/macros-x86_64.AppImage ]; then
+  cp build/linux/appimage/build/macros-x86_64.AppImage bin/macros.AppImage
+  echo "   ✅ AppImage: bin/macros.AppImage"
+else
+  echo "   ⚠️  AppImage oluşturulamadı, binary'ler yükleniyor"
+fi
 echo ""
 
 # 5. GitHub Release — varsa güncelle, yoksa oluştur
 echo "📤 GitHub Release gönderiliyor..."
 CHANGELOG=$(python3 -c "import json; h=json.load(open('version.json'))['history']; print(h[0]['changelog'] if h else 'Yeni sürüm')")
 
+ASSETS=(
+  "./bin/macros#macros-linux-amd64"
+  "./bin/macros.exe#macros-windows-amd64.exe"
+)
+[ -f bin/macros.AppImage ] && ASSETS+=("./bin/macros.AppImage#macros-linux-amd64.AppImage")
+
 if gh release view "v$VERSION" >/dev/null 2>&1; then
-  # Release varsa sadece asset'leri güncelle
-  gh release upload "v$VERSION" \
-    "./bin/macros#macros-linux-amd64" \
-    "./bin/macros.AppImage#macros-linux-amd64.AppImage" \
-    "./bin/macros.exe#macros-windows-amd64.exe" \
-    --clobber
+  gh release upload "v$VERSION" "${ASSETS[@]}" --clobber
 else
-  # Release yoksa yeni oluştur
   gh release create "v$VERSION" \
     --title "v$VERSION" \
     --notes "$CHANGELOG" \
-    "./bin/macros#macros-linux-amd64" \
-    "./bin/macros.AppImage#macros-linux-amd64.AppImage" \
-    "./bin/macros.exe#macros-windows-amd64.exe"
+    "${ASSETS[@]}"
 fi
 
 echo ""
