@@ -11,7 +11,7 @@ APP_DIR="${APP_NAME}.AppDir"
 # Create AppDir structure
 mkdir -p "${APP_DIR}/usr/bin"
 cp -r "${APP_BINARY}" "${APP_DIR}/usr/bin/"
-cp "${ICON_PATH}" "${APP_DIR}/"
+cp -r "${ICON_PATH}" "${APP_DIR}/${APP_NAME}.png"
 cp "${DESKTOP_FILE}" "${APP_DIR}/"
 
 if [[ $(uname -m) == *x86_64* ]]; then
@@ -19,8 +19,11 @@ if [[ $(uname -m) == *x86_64* ]]; then
     wget -q -4 -N https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
     chmod +x linuxdeploy-x86_64.AppImage
 
+    # Remove the gtk plugin (gtk-4.0 modules not available on this distro)
+    rm -f "${APP_DIR}/../linuxdeploy-plugin-gtk.sh" 2>/dev/null || true
+
     # Run linuxdeploy to bundle the application
-    DEPLOY_GTK_VERSION=3 ./linuxdeploy-x86_64.AppImage --appdir "${APP_DIR}" --output appimage
+    ./linuxdeploy-x86_64.AppImage --appdir "${APP_DIR}" --output appimage
 else
     # Download linuxdeploy and make it executable (arm64)
     wget -q -4 -N https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-aarch64.AppImage
