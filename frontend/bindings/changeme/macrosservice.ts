@@ -15,6 +15,15 @@ import { Call as $Call, CancellablePromise as $CancellablePromise } from "@wails
 import * as $models from "./models.js";
 
 /**
+ * CreateFile creates a new .py file under Macros/ with the given name.
+ * parentPath is an optional subdirectory (e.g. "Crafting" or "Skills/Magery").
+ * Returns the subpath (forward-slash) of the created file.
+ */
+export function CreateFile(name: string, parentPath: string): $CancellablePromise<string> {
+    return $Call.ByID(2012343822, name, parentPath);
+}
+
+/**
  * GetAppVersion returns the current app version info.
  */
 export function GetAppVersion(): $CancellablePromise<$models.AppVersionInfo | null> {
@@ -61,6 +70,21 @@ export function GetVersions(subpath: string): $CancellablePromise<$models.Versio
  */
 export function ListDir(subpath: string): $CancellablePromise<$models.FileEntry[] | null> {
     return $Call.ByID(871135051, subpath);
+}
+
+/**
+ * ListDirs returns all subdirectory paths recursively under the given subpath (or root if empty).
+ */
+export function ListDirs(subpath: string): $CancellablePromise<string[] | null> {
+    return $Call.ByID(4114591016, subpath);
+}
+
+/**
+ * MoveFile moves a file from sourcePath to targetDir (both relative to Macros root).
+ * Returns the new subpath of the moved file.
+ */
+export function MoveFile(sourcePath: string, targetDir: string): $CancellablePromise<string> {
+    return $Call.ByID(539207263, sourcePath, targetDir);
 }
 
 /**

@@ -227,8 +227,145 @@ func (s *MacrosService) backupFile(subpath string) error {
 }
 
 // ---------------------------------------------------------------------------
+// Helpers for CreateMacro
+// ---------------------------------------------------------------------------
+
+// CreateFile creates a new .py file under Macros/ with the given name.
+// parentPath is an optional subdirectory (e.g. "Crafting" or "Skills/Magery").
+// Returns the subpath (forward-slash) of the created file.
+func (s *MacrosService) CreateFile(name string, parentPath string) (string, error) {
+	if name == "" {
+		return "", fmt.Errorf("file name is required")
+	}
+	ext := filepath.Ext(name)
+	if ext == "" {
+		name += ".py"
+	} else if ext != ".py" {
+		name += ".py"
+	}
+	parent := strings.Trim(strings.ReplaceAll(parentPath, "\\", "/"), "/")
+	subpath := name
+	if parent != "" {
+		subpath = parent + "/" + name
+	}
+	subpath = filepath.ToSlash(subpath)
+	dest := s.cleanPath(subpath)
+	if !strings.HasPrefix(dest, s.root) {
+		return "", os.ErrPermission
+	}
+	// Dedup if exists
+	base := strings.TrimSuffix(name, ".py")
+	for i := 1; ; i++ {
+		if _, err := os.Stat(dest); os.IsNotExist(err) {
+			break
+		}
+		fname := fmt.Sprintf("%s_%d.py", base, i)
+		subpath = fname
+		if parent != "" {
+			subpath = parent + "/" + fname
+		}
+		subpath = filepath.ToSlash(subpath)
+		dest = s.cleanPath(subpath)
+	}
+	dir := filepath.Dir(dest)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return "", err
+	}
+	content := fmt.Sprintf("# %s\n\n", name)
+	if err := os.WriteFile(dest, []byte(content), 0644); err != nil {
+		return "", err
+	}
+	return subpath, nil
+}
+
+// MoveFile moves a file from sourcePath to targetDir (both relative to Macros root).
+// Returns the new subpath of the moved file.
+func (s *MacrosService) MoveFile(sourcePath string, targetDir string) (string, error) {
+	if sourcePath == "" {
+		return "", fmt.Errorf("source path is required")
+	}
+	src := s.cleanPath(sourcePath)
+	if !strings.HasPrefix(src, s.root) {
+		return "", os.ErrPermission
+	}
+	info, err := os.Stat(src)
+	if err != nil {
+		return "", err
+	}
+	if info.IsDir() {
+		return "", fmt.Errorf("cannot move a directory")
+	}
+	// Build destination path
+	dir := strings.Trim(strings.ReplaceAll(targetDir, "\\", "/"), "/")
+	fname := filepath.Base(src)
+	newPath := dir + "/" + fname
+	if dir == "" {
+		newPath = fname
+	}
+	newPath = filepath.ToSlash(newPath)
+	dest := s.cleanPath(newPath)
+	if !strings.HasPrefix(dest, s.root) {
+		return "", os.ErrPermission
+	}
+	// Dedup if destination exists
+	base := strings.TrimSuffix(fname, ".py")
+	for i := 1; ; i++ {
+		if _, err := os.Stat(dest); os.IsNotExist(err) {
+			break
+		}
+		fname2 := fmt.Sprintf("%s_%d.py", base, i)
+		newPath = dir + "/" + fname2
+		if dir == "" {
+			newPath = fname2
+		}
+		newPath = filepath.ToSlash(newPath)
+		dest = s.cleanPath(newPath)
+	}
+	if err := os.MkdirAll(filepath.Dir(dest), 0755); err != nil {
+		return "", err
+	}
+	if err := os.Rename(src, dest); err != nil {
+		return "", err
+	}
+	return newPath, nil
+}
+
+// ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
+
+// ListDirs returns all subdirectory paths recursively under the given subpath (or root if empty).
+func (s *MacrosService) ListDirs(subpath string) ([]string, error) {
+	dir := s.root
+	if subpath != "" {
+		dir = s.cleanPath(subpath)
+	}
+	if !strings.HasPrefix(dir, s.root) {
+		return nil, os.ErrPermission
+	}
+	var dirs []string
+	err := filepath.WalkDir(dir, func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if !d.IsDir() {
+			return nil
+		}
+		if strings.HasPrefix(d.Name(), ".") {
+			return fs.SkipDir
+		}
+		rel, _ := filepath.Rel(s.root, path)
+		if rel == "." {
+			return nil // skip root
+		}
+		dirs = append(dirs, filepath.ToSlash(rel))
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return dirs, nil
+}
 
 // ListDir returns entries inside the given subpath (or root if empty).
 func (s *MacrosService) ListDir(subpath string) ([]FileEntry, error) {
