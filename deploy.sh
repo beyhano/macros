@@ -25,8 +25,8 @@ wails3 task windows:build
 
 # 4. Build Linux AppImage (custom build.sh with DISABLE_PLUGINS=1)
 echo "🏗️  Linux AppImage..."
-rm -rf "$ROOT/build/linux/appimage/build/macros-x86_64.AppDir"
-rm -f "$ROOT/build/linux/appimage/build/macros-x86_64.AppImage"
+rm -rf "$ROOT/build/linux/appimage/build/macros.AppDir" "$ROOT/build/linux/appimage/build/squashfs-root"
+rm -f "$ROOT/build/linux/appimage/build/macros.AppImage" "$ROOT/build/linux/appimage/build/macros-x86_64.AppImage"
 
 cd "$ROOT/build/linux/appimage/build"
 DISABLE_PLUGINS=1 \
@@ -38,8 +38,11 @@ DESKTOP_FILE="$ROOT/build/linux/macros.desktop" \
 bash "$ROOT/build/linux/appimage/build.sh" 2>&1 || true
 cd "$ROOT"
 
-if [ -f "$ROOT/build/linux/appimage/build/macros-x86_64.AppImage" ]; then
-  cp "$ROOT/build/linux/appimage/build/macros-x86_64.AppImage" "$ROOT/bin/macros.AppImage"
+# build.sh, appimagetool'un ürettiği macros-x86_64.AppImage'ı macros.AppImage'a
+# yeniden adlandırır; kontrol bu isim üzerinden yapılmalı
+APPIMAGE_OUT="$ROOT/build/linux/appimage/build/macros.AppImage"
+if [ -f "$APPIMAGE_OUT" ]; then
+  cp "$APPIMAGE_OUT" "$ROOT/bin/macros.AppImage"
   echo "   ✅ AppImage: bin/macros.AppImage"
 else
   echo "   ⚠️  AppImage oluşturulamadı"
