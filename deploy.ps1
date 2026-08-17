@@ -58,11 +58,17 @@ if (-not (Test-NativeOk { & gh auth status })) {
     exit 1
 }
 
-# 2. Commit & push
+# 2. Commit & push (only when there are changes) + version tag
 Write-Host "Commit & push..."
-Invoke-Native "git add"       { git add . }
-Invoke-Native "git commit"    { git commit -m "v$Version" --allow-empty }
+Invoke-Native "git add" { git add . }
+if (Test-NativeOk { & git diff --cached --quiet }) {
+    Write-Host "   (degisiklik yok, commit atlandi)"
+} else {
+    Invoke-Native "git commit" { git commit -m "v$Version" }
+}
 Invoke-Native "git push"      { git push }
+Invoke-Native "git tag (v$Version)" { git tag -f "v$Version" }
+Invoke-Native "git tag push (v$Version)" { git push origin "v$Version" --force }
 
 # 3. Build Windows binary
 Write-Host "Windows binary build..."

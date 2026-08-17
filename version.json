@@ -1,9 +1,14 @@
 {
   "current": {
-    "version": "0.0.7",
-    "date": "2026-07-26T23:35:00Z"
+    "version": "0.0.8",
+    "date": "2026-08-17T18:30:00Z"
   },
   "history": [
+    {
+      "version": "0.0.8",
+      "date": "2026-08-17T18:30:00Z",
+      "changelog": "Otomatik güncelleme (Wails updater), NSIS installer, makro kütüphanesi GitHub senkronu, deploy.ps1"
+    },
     {
       "version": "0.0.7",
       "date": "2026-07-26T23:35:00Z",
