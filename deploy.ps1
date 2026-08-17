@@ -11,6 +11,26 @@
 param()
 $ErrorActionPreference = "Stop"
 
+# Runs a native command tolerantly: PS 5.1 turns native stderr into a
+# terminating NativeCommandError when $ErrorActionPreference=Stop, so we
+# relax it around every external call and check the exit code ourselves.
+function Invoke-Native {
+    param([string]$What, [scriptblock]$Cmd)
+    $old = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try { & $Cmd 2>&1 | Out-Host } finally { $ErrorActionPreference = $old }
+    $exit = $LASTEXITCODE
+    if ($exit -ne 0) { throw "$What basarisiz (exit $exit)" }
+}
+
+function Test-NativeOk {
+    param([scriptblock]$Cmd)
+    $old = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try { & $Cmd 2>&1 | Out-Null } finally { $ErrorActionPreference = $old }
+    return ($LASTEXITCODE -eq 0)
+}
+
 $Root = (Get-Location).Path
 Write-Host "macros deploy basliyor..." -ForegroundColor Cyan
 
@@ -20,26 +40,32 @@ $Version = $manifest.current.version
 if (-not $Version) { throw "version.json icinde current.version bulunamadi!" }
 Write-Host "Versiyon: v$Version"
 
+# 1b. GitHub auth preflight
+Write-Host "gh auth kontrol..."
+if (-not (Test-NativeOk { & gh auth status })) {
+    Write-Host ""
+    Write-Host "HATA: gh ile giris yapilmamis." -ForegroundColor Red
+    Write-Host "Once su komutu calistir ve GitHub hesabina giris yap:"
+    Write-Host "   gh auth login"
+    Write-Host "Sonra bu scripti tekrar calistir."
+    exit 1
+}
+
 # 2. Commit & push
 Write-Host "Commit & push..."
-git add .
-if ($LASTEXITCODE -ne 0) { throw "git add basarisiz" }
-git commit -m "v$Version" --allow-empty
-if ($LASTEXITCODE -ne 0) { throw "git commit basarisiz" }
-git push
-if ($LASTEXITCODE -ne 0) { throw "git push basarisiz" }
+Invoke-Native "git add"       { git add . }
+Invoke-Native "git commit"    { git commit -m "v$Version" --allow-empty }
+Invoke-Native "git push"      { git push }
 
 # 3. Build Windows binary
 Write-Host "Windows binary build..."
-& wails3 task windows:build
-if ($LASTEXITCODE -ne 0) { throw "wails3 windows:build basarisiz" }
+Invoke-Native "wails3 windows:build" { & wails3 task windows:build }
 $Exe = Join-Path $Root "bin\macros.exe"
 if (-not (Test-Path $Exe)) { throw "build ciktisi yok: $Exe" }
 
 # 4. NSIS installer (per-user scope so the integrated updater can swap the exe)
 Write-Host "Windows NSIS installer (per-user)..."
-& wails3 task windows:package INSTALL_SCOPE=user
-if ($LASTEXITCODE -ne 0) { throw "wails3 windows:package basarisiz" }
+Invoke-Native "wails3 windows:package" { & wails3 task windows:package INSTALL_SCOPE=user }
 $amd64Installer = Join-Path $Root "bin\macros-amd64-installer.exe"
 if (Test-Path $amd64Installer) {
     Copy-Item $amd64Installer (Join-Path $Root "bin\macros-installer.exe") -Force
@@ -80,13 +106,11 @@ if ($manifest.history -and $manifest.history.Count -gt 0) {
     $Changelog = $manifest.history[0].changelog
 }
 
-& gh release view "v$Version" *> $null
-if ($LASTEXITCODE -eq 0) {
-    & gh release upload "v$Version" @Assets --clobber
+if (Test-NativeOk { & gh release view "v$Version" }) {
+    Invoke-Native "gh release upload" { & gh release upload "v$Version" @Assets --clobber }
 } else {
-    & gh release create "v$Version" --title "v$Version" --notes $Changelog @Assets
+    Invoke-Native "gh release create" { & gh release create "v$Version" --title "v$Version" --notes $Changelog @Assets }
 }
-if ($LASTEXITCODE -ne 0) { throw "GitHub release guncelleme basarisiz" }
 
 Write-Host ""
 Write-Host "OK v$Version yayinlandi!" -ForegroundColor Green
