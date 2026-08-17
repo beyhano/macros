@@ -42,7 +42,9 @@ $Root = (Get-Location).Path
 Write-Host "macros deploy basliyor..." -ForegroundColor Cyan
 
 # 1. Version
-$manifest = Get-Content -Raw (Join-Path $Root "version.json") | ConvertFrom-Json
+# PowerShell 5.1 Get-Content defaults to ANSI; version.json is UTF-8, so read
+# explicitly or Turkish changelogs arrive mojibake'd.
+$manifest = Get-Content -Raw -Encoding UTF8 (Join-Path $Root "version.json") | ConvertFrom-Json
 $Version = $manifest.current.version
 if (-not $Version) { throw "version.json icinde current.version bulunamadi!" }
 Write-Host "Versiyon: v$Version"
@@ -118,11 +120,15 @@ $Changelog = "Yeni surum"
 if ($manifest.history -and $manifest.history.Count -gt 0) {
     $Changelog = $manifest.history[0].changelog
 }
+# Pass notes via a UTF-8 (no BOM) file so gh.exe receives exact bytes.
+$NotesFile = Join-Path $env:TEMP "macros_notes_$Version.txt"
+[System.IO.File]::WriteAllText($NotesFile, $Changelog, (New-Object System.Text.UTF8Encoding($false)))
+$notesArgs = @("--notes-file", $NotesFile)
 
 if (Test-NativeOk { & gh release view "v$Version" }) {
     Invoke-Native "gh release upload" { & gh release upload "v$Version" @Assets --clobber }
 } else {
-    Invoke-Native "gh release create" { & gh release create "v$Version" --title "v$Version" --notes $Changelog @Assets }
+    Invoke-Native "gh release create" { & gh release create "v$Version" --title "v$Version" @notesArgs @Assets }
 }
 
 Write-Host ""

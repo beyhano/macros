@@ -1,9 +1,14 @@
 {
   "current": {
-    "version": "0.0.9",
-    "date": "2026-08-17T19:00:00Z"
+    "version": "0.0.10",
+    "date": "2026-08-17T19:30:00Z"
   },
   "history": [
+    {
+      "version": "0.0.10",
+      "date": "2026-08-17T19:30:00Z",
+      "changelog": "Güncelleme penceresi tema ve not düzeltmesi"
+    },
     {
       "version": "0.0.9",
       "date": "2026-08-17T19:00:00Z",

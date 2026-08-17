@@ -23,6 +23,30 @@ var assets embed.FS
 //go:embed version.json
 var versionJSON []byte
 
+// updaterWindowCSS restyles the built-in update window to match the app's
+// dark theme and improve the release-notes typography.
+const updaterWindowCSS = `
+:root {
+  --bg:        #0b0b10;
+  --surface:   #15151c;
+  --surface-2: #1e1e28;
+  --fg:        #e7e9ee;
+  --fg-dim:    #a2a8b4;
+  --fg-faint:  #6d7280;
+  --border:    #2a2b36;
+  --accent:    #3b82f6;
+  --accent-fg: #ffffff;
+  --accent-dim:#3b82f633;
+  --radius:    12px;
+  --radius-sm: 8px;
+  --pad:       22px;
+}
+.u__title  { font-size: 15px; }
+.u__subtitle { font-size: 12px; }
+.u__notes  { font-size: 12.5px; line-height: 1.5; color: var(--fg-dim); max-height: 240px; overflow-y: auto; }
+.u__btn    { border-radius: 8px; font-weight: 600; }
+`
+
 func init() {
 	// Register a custom event whose associated data type is string.
 	// This is not required, but the binding generator will pick up registered events
@@ -92,6 +116,14 @@ func main() {
 		if err := app.Updater.Init(updater.Config{
 			CurrentVersion: curVersion,
 			Providers:      []updater.Provider{ghProv},
+			Window: &updater.BuiltinWindow{
+				CSS: updaterWindowCSS,
+				Options: updater.WindowOptions{
+					Title:  "Macros Güncelleme",
+					Width:  520,
+					Height: 480,
+				},
+			},
 		}); err != nil {
 			log.Printf("updater: init: %v", err)
 		}
