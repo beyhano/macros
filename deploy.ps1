@@ -11,23 +11,30 @@
 param()
 $ErrorActionPreference = "Stop"
 
-# Runs a native command tolerantly: PS 5.1 turns native stderr into a
-# terminating NativeCommandError when $ErrorActionPreference=Stop, so we
-# relax it around every external call and check the exit code ourselves.
+# Runs a native command tolerantly. Native stderr (which PS 5.1 renders as a
+# red NativeCommandError, and which wails3/git write routinely even on
+# success) is re-emitted as plain text; the real signal is the exit code.
 function Invoke-Native {
     param([string]$What, [scriptblock]$Cmd)
     $old = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    try { & $Cmd 2>&1 | Out-Host } finally { $ErrorActionPreference = $old }
-    $exit = $LASTEXITCODE
-    if ($exit -ne 0) { throw "$What basarisiz (exit $exit)" }
+    try {
+        foreach ($l in (& $Cmd 2>&1)) {
+            if ($l -is [System.Management.Automation.ErrorRecord]) {
+                Write-Host $l.ToString()
+            } else {
+                Write-Host $l
+            }
+        }
+    } finally { $ErrorActionPreference = $old }
+    if ($LASTEXITCODE -ne 0) { throw "$What basarisiz (exit $LASTEXITCODE)" }
 }
 
 function Test-NativeOk {
     param([scriptblock]$Cmd)
     $old = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    try { & $Cmd 2>&1 | Out-Null } finally { $ErrorActionPreference = $old }
+    try { & $Cmd 2>$null | Out-Null } finally { $ErrorActionPreference = $old }
     return ($LASTEXITCODE -eq 0)
 }
 
