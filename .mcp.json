@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+     "memo": {
+      "url": "https://memo.beyhan.gen.tr/mcp",
+      "headers": {
+        "Mcp-Api-Key": "mcpmemo-ZUpRPfxREDVHppxg5ShpuO0FsByWpTedmZ7mg9FpMBNUh3vVpsW1vFrLUmV8"
+      }
+    }
+  }
+}

@@ -2,11 +2,14 @@ package main
 
 import (
 	"embed"
-
+	"encoding/json"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/wailsapp/wails/v3/pkg/application"
+	"github.com/wailsapp/wails/v3/pkg/updater"
+	"github.com/wailsapp/wails/v3/pkg/updater/providers/github"
 )
 
 // Wails uses Go's `embed` package to embed the frontend files into the binary.
@@ -17,11 +20,30 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
+//go:embed version.json
+var versionJSON []byte
+
 func init() {
 	// Register a custom event whose associated data type is string.
 	// This is not required, but the binding generator will pick up registered events
 	// and provide a strongly typed JS/TS API for them.
 	application.RegisterEvent[string]("time")
+}
+
+// MatchAsset selects the release asset matching the running platform by exact
+// filename. Repo releases ship unrenamed basenames: "macros" (linux/darwin
+// raw) and "macros.exe" (windows). Returns -1 when no asset matches.
+func MatchAsset(req updater.CheckRequest, assets []github.ReleaseAsset) int {
+	expect := "macros"
+	if req.Platform == "windows" || req.Platform == "Windows" {
+		expect = "macros.exe"
+	}
+	for i, a := range assets {
+		if strings.EqualFold(a.Name, expect) {
+			return i
+		}
+	}
+	return -1
 }
 
 // main function serves as the application's entry point. It initializes the application, creates a window,
@@ -48,6 +70,34 @@ func main() {
 			ApplicationShouldTerminateAfterLastWindowClosed: true,
 		},
 	})
+
+	var vf struct {
+		Current struct {
+			Version string `json:"version"`
+		} `json:"current"`
+	}
+	if err := json.Unmarshal(versionJSON, &vf); err != nil {
+		log.Printf("updater: version.json parse failed: %v", err)
+	}
+	curVersion := strings.TrimPrefix(vf.Current.Version, "v")
+
+	ghProv, err := github.New(github.Config{
+		Repository:    "beyhano/macros",
+		ChecksumAsset: "SHA256SUMS",
+		AssetMatcher:  MatchAsset,
+	})
+	if err != nil {
+		log.Printf("updater: github provider: %v", err)
+	} else if curVersion != "" {
+		if err := app.Updater.Init(updater.Config{
+			CurrentVersion: curVersion,
+			Providers:      []updater.Provider{ghProv},
+		}); err != nil {
+			log.Printf("updater: init: %v", err)
+		}
+	} else {
+		log.Println("updater: no version, skipping")
+	}
 
 	// Create a new window with the necessary options.
 	// 'Title' is the title of the window.
@@ -79,7 +129,7 @@ func main() {
 	}()
 
 	// Run the application. This blocks until the application has been exited.
-	err := app.Run()
+	err = app.Run()
 
 	// If an error occurred while running the application, log it and exit.
 	if err != nil {

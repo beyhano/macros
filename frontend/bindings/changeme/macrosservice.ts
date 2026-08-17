@@ -15,6 +15,16 @@ import { Call as $Call, CancellablePromise as $CancellablePromise } from "@wails
 import * as $models from "./models.js";
 
 /**
+ * CheckForUpdates asks the Wails updater for a newer release. Returns true
+ * when an update is available and its window has been opened; false when the
+ * app is already up to date. Errors (e.g. offline, no release) are returned,
+ * never fatal.
+ */
+export function CheckForUpdates(): $CancellablePromise<boolean> {
+    return $Call.ByID(3792747499);
+}
+
+/**
  * CreateFile creates a new .py file under Macros/ with the given name.
  * parentPath is an optional subdirectory (e.g. "Crafting" or "Skills/Magery").
  * Returns the subpath (forward-slash) of the created file.

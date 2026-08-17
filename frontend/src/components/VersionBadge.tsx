@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { Tag, PlusCircle, History } from "lucide-react"
 import { Button } from "./ui/button"
 import Swal from "sweetalert2"
-import { GetAppVersion, GetVersionHistory, PublishVersion, GetReleaseCommand } from "../../bindings/changeme/macrosservice"
+import { GetAppVersion, GetVersionHistory, PublishVersion, GetReleaseCommand, CheckForUpdates } from "../../bindings/changeme/macrosservice"
 
 interface AppVersion {
   version: string
@@ -22,6 +22,10 @@ export function VersionBadge() {
 
   useEffect(() => {
     GetAppVersion().then((v) => setVersion(v ?? null))
+    const t = setTimeout(() => {
+      CheckForUpdates().catch(() => {})
+    }, 3000)
+    return () => clearTimeout(t)
   }, [])
 
   const handlePublish = async () => {

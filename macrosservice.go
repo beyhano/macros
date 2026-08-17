@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"crypto/sha1"
 	"embed"
 	"encoding/json"
@@ -12,6 +13,9 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	git "github.com/go-git/go-git/v5"
+	"github.com/wailsapp/wails/v3/pkg/application"
 )
 
 //go:embed Macros
@@ -53,40 +57,138 @@ type MacrosService struct {
 }
 
 func NewMacrosService() *MacrosService {
-	// Look for existing Macros/ directory: cwd first, then home
-	root := ""
-	for _, d := range []string{".", os.Getenv("HOME")} {
-		if d == "" {
-			continue
-		}
-		candidate := filepath.Join(d, "Macros")
-		if info, err := os.Stat(candidate); err == nil && info.IsDir() {
-			root = candidate
-			break
-		}
-	}
-	// Not found → extract to current working directory
-	if root == "" {
-		wd, _ := os.Getwd()
-		root = filepath.Join(wd, "Macros")
-		log.Println("Macros/ bulunamadı, embedded dosyalar çıkartılıyor...")
-		if err := os.MkdirAll(wd, 0755); err == nil {
-			if err := extractEmbedded(macrosEmbed, "Macros", root); err != nil {
-				log.Printf("Uyarı: Macros/ çıkartılamadı: %v", err)
-			} else {
-				log.Println("Macros/ başarıyla oluşturuldu.")
-			}
-		} else {
-			log.Printf("Uyarı: Dizine yazılamadı: %v", err)
-			// Son çare: home'a çıkart
-			home := os.Getenv("HOME")
-			if home != "" {
-				root = filepath.Join(home, "Macros")
-				extractEmbedded(macrosEmbed, "Macros", root)
-			}
-		}
-	}
+	root := resolveMacrosRoot()
+	log.Printf("Macros kök dizini: %s", root)
 	return &MacrosService{root: root}
+}
+
+// Macro library sync configuration.
+const (
+	macroRepoURL = "https://github.com/beyhano/ClassicAssist-Macros.git"
+	macroRepoDir = "ClassicAssist-Macros"
+)
+
+// resolveMacrosRoot decides where the macro library lives:
+//  1. An existing synced checkout of ClassicAssist-Macros → its Macros/ subdir (auto pull).
+//  2. A fresh clone of ClassicAssist-Macros into cwd (or home) → its Macros/ subdir.
+//  3. A legacy Macros/ directory found in cwd or home.
+//  4. Fallback: extract the embedded library into cwd.
+func resolveMacrosRoot() string {
+	wd, _ := os.Getwd()
+	home := os.Getenv("HOME")
+	var bases []string
+	if wd != "" {
+		bases = append(bases, wd)
+	}
+	if home != "" && home != wd {
+		bases = append(bases, home)
+	}
+	return pickLibraryRoot(bases, isGitRepo, cloneMacroRepo, extractTo)
+}
+
+// extractTo extracts the embedded library into target; reports success.
+func extractTo(target string) bool {
+	if err := extractEmbedded(macrosEmbed, "Macros", target); err != nil {
+		log.Printf("Uyarı: Macros/ çıkartılamadı: %v", err)
+		return false
+	}
+	return true
+}
+
+// pickLibraryRoot implements the library resolution decision (injectable for
+// tests): checkouts win, a fresh clone runs when no checkout exists, a legacy
+// Macros/ dir is used when cloning is impossible, and extraction is the final
+// fallback. All paths are absolute and returned as-is.
+func pickLibraryRoot(bases []string, gitRepo, cloneFn func(string) bool, extractFn func(string) bool) string {
+	for _, base := range bases {
+		repo := filepath.Join(base, macroRepoDir)
+		if gitRepo(repo) {
+			if lib := filepath.Join(repo, "Macros"); isDir(lib) {
+				pullMacroRepo(repo)
+				return lib
+			}
+		}
+	}
+	for _, base := range bases {
+		repo := filepath.Join(base, macroRepoDir)
+		if !isDir(repo) && cloneFn(repo) {
+			if lib := filepath.Join(repo, "Macros"); isDir(lib) {
+				return lib
+			}
+		}
+	}
+	for _, base := range bases {
+		candidate := filepath.Join(base, "Macros")
+		if isDir(candidate) {
+			return candidate
+		}
+	}
+	if len(bases) > 0 {
+		root := filepath.Join(bases[0], "Macros")
+		log.Println("Macros/ bulunamadı, embedded dosyalar çıkartılıyor...")
+		if extractFn(root) {
+			log.Println("Macros/ başarıyla oluşturuldu.")
+			return root
+		}
+	}
+	return filepath.Join(".", "Macros")
+}
+
+// cloneMacroRepo clones ClassicAssist-Macros (shallow) into target.
+// Returns true on success; existing checkouts are left untouched.
+func cloneMacroRepo(target string) bool {
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+	defer cancel()
+	log.Printf("ClassicAssist-Macros klonlanıyor: %s", target)
+	_, err := git.PlainCloneContext(ctx, target, false, &git.CloneOptions{
+		URL:      macroRepoURL,
+		Depth:    1,
+		Progress: nil,
+	})
+	if err != nil {
+		log.Printf("Uyarı: Klon başarısız: %v", err)
+		return false
+	}
+	return true
+}
+
+// pullMacroRepo fast-forwards the checkout. Failures (offline, local changes)
+// are logged and ignored — the existing library keeps working.
+func pullMacroRepo(repo string) {
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	log.Println("ClassicAssist-Macros güncelleniyor (pull)...")
+		repository, err := git.PlainOpen(repo)
+	if err != nil {
+		log.Printf("Uyarı: repo açılamadı: %v", err)
+		return
+	}
+	wt, err := repository.Worktree()
+	if err != nil {
+		log.Printf("Uyarı: worktree açılamadı: %v", err)
+		return
+	}
+	if err := wt.PullContext(ctx, &git.PullOptions{Force: false, SingleBranch: true}); err != nil {
+		if err == git.NoErrAlreadyUpToDate {
+			log.Println("Kütüphane güncel.")
+			return
+		}
+		log.Printf("Uyarı: Pull başarısız (çevrimdışı veya yerel değişiklik?): %v", err)
+		return
+	}
+	log.Println("Kütüphane güncellendi.")
+}
+
+// isGitRepo reports whether dir contains a .git entry (file or directory).
+func isGitRepo(dir string) bool {
+	_, err := os.Stat(filepath.Join(dir, ".git"))
+	return err == nil
+}
+
+// isDir reports whether path exists and is a directory.
+func isDir(path string) bool {
+	info, err := os.Stat(path)
+	return err == nil && info.IsDir()
 }
 
 // extractEmbedded copies an embedded fs directory to a target path on disk.
@@ -526,12 +628,22 @@ type VersionManifest struct {
 }
 
 func (s *MacrosService) versionFilePath() string {
+	// version.json sits next to the executable (works for dev and installed
+	// builds regardless of where the macro library root lives).
+	if exe, err := os.Executable(); err == nil {
+		return filepath.Join(filepath.Dir(exe), "version.json")
+	}
 	return filepath.Join(filepath.Dir(s.root), "version.json")
 }
 
 func (s *MacrosService) readVersionManifest() (*VersionManifest, error) {
 	data, err := os.ReadFile(s.versionFilePath())
+	// Fall back to the manifest embedded into the binary when there is no
+	// version.json on disk (e.g. installer-only install or bare binary run).
 	if err != nil {
+		if embedded, eerr := embeddedVersionManifest(); eerr == nil {
+			return embedded, nil
+		}
 		// Return a sensible default
 		return &VersionManifest{
 			Current: AppVersionInfo{Version: "0.0.1", Date: time.Now().UTC().Format(time.RFC3339)},
@@ -540,6 +652,19 @@ func (s *MacrosService) readVersionManifest() (*VersionManifest, error) {
 	}
 	var m VersionManifest
 	if err := json.Unmarshal(data, &m); err != nil {
+		return nil, err
+	}
+	if m.Current.Version == "" {
+		m.Current.Version = "0.0.1"
+	}
+	return &m, nil
+}
+
+// embeddedVersionManifest returns the version manifest embedded into the
+// binary at build time (module-root version.json).
+func embeddedVersionManifest() (*VersionManifest, error) {
+	var m VersionManifest
+	if err := json.Unmarshal(versionJSON, &m); err != nil {
 		return nil, err
 	}
 	if m.Current.Version == "" {
@@ -629,4 +754,25 @@ func (s *MacrosService) PublishVersion(changelog string, bumpType string) (*AppV
 // GetReleaseCommand returns the shell command to create a GitHub Release.
 func (s *MacrosService) GetReleaseCommand() string {
 	return "./deploy.sh"
+}
+
+// CheckForUpdates asks the Wails updater for a newer release. Returns true
+// when an update is available and its window has been opened; false when the
+// app is already up to date. Errors (e.g. offline, no release) are returned,
+// never fatal.
+func (s *MacrosService) CheckForUpdates() (bool, error) {
+	app := application.Get()
+	if app == nil {
+		return false, nil
+	}
+	ctx := context.Background()
+	rel, err := app.Updater.Check(ctx)
+	if err != nil {
+		return false, err
+	}
+	if rel == nil {
+		return false, nil
+	}
+	go app.Updater.CheckAndInstall(ctx)
+	return true, nil
 }
